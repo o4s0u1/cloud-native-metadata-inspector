@@ -15,11 +15,12 @@ gcloud iam service-accounts add-iam-policy-binding "${SA_EMAIL}" \
 
 # List of Hardened Roles
 ROLES=(
-    "roles/run.admin"                # Manage Cloud Run services
-    "roles/artifactregistry.repoAdmin" # Manage image repositories 
-    "roles/secretmanager.admin" # Manage Secrets 
-    "roles/resourcemanager.projectIamAdmin" # Required for Terraform to grant permissions to SA-Runtime
-    "roles/iam.serviceAccountUser"   # Essential: Allows GitHub to "act as" the SA during deployment
+    "roles/run.admin"                        # Full control over Cloud Run services
+    "roles/artifactregistry.repoAdmin"       # Manage Artifact Registry repositories and images
+    "roles/secretmanager.admin"              # Manage secrets and their versions in Secret Manager
+    "roles/resourcemanager.projectIamAdmin"  # Required for Terraform to manage IAM policies (e.g., for SA-Runtime)
+    "roles/iam.serviceAccountUser"           # Essential: Allows GitHub Actions to "act as" this Service Account
+    "roles/storage.admin"                    # Full control over GCS (Required for Terraform state and image layers)
 )
 
 for ROLE in "${ROLES[@]}"; do
