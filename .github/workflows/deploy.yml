@@ -28,6 +28,18 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
+      - name: Debug Service Account Identity
+        run: |
+          echo "--- Checking Identity ---"
+          gcloud auth list
+          
+          echo "--- Checking Project Context ---"
+          gcloud config list project
+          
+          echo "--- Testing GCS Access Directly ---"
+          # Thử liệt kê file trong bucket bằng gcloud (ngoài Terraform)
+          gcloud storage ls gs://terraform-state-cloud-metadata-inspector || echo "CANNOT ACCESS BUCKET"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
