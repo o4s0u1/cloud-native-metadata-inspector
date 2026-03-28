@@ -1,3 +1,6 @@
+# Ignore sensitive environment configs
+scripts/env.sh
+
 # Terraform temporary files
 .terraform/
 *.tfstate
